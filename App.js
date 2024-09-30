@@ -7,6 +7,7 @@ import Diets from "./screens/Diets";
 import Settings from "./screens/Settings";
 import AddButton from "./components/AddButton";
 import AddActivity from "./screens/AddActivity";
+import { ItemsListProvider } from "./components/context/ItemListContext";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,23 +30,25 @@ const Home = ({ navigation }) => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Add An Activity"
-          component={AddActivity}
-          options={{
-            headerShown: true,
-            headerBackTitleVisible: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ItemsListProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Add An Activity"
+            component={AddActivity}
+            options={{
+              headerShown: true,
+              headerBackTitleVisible: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ItemsListProvider>
   );
 }
 

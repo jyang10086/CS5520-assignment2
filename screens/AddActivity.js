@@ -2,6 +2,7 @@ import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { SelectList } from "react-native-dropdown-select-list";
+import { useItemsList } from "../components/context/ItemListContext";
 
 const activityData = [
   { key: "1", value: "Running" },
@@ -19,6 +20,8 @@ export default function AddActivity({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [dateTxt, setDateTxt] = useState(new Date().toDateString());
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const { addActivity } = useItemsList();
 
   const handleActivityChange = (activity) => {
     setActivity(activity);
@@ -61,7 +64,7 @@ export default function AddActivity({ navigation }) {
       date: date.toDateString(),
     };
 
-    // todo: addActivity();
+    addActivity(newActivity);
 
     setActivity("");
     setDuration("");
