@@ -1,8 +1,9 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useItemsList } from "../components/context/ItemListContext";
+import DatePicker from "../components/DatePicker";
+import { inputContainer } from "../Styles";
 
 const activityData = [
   { key: "1", value: "Running" },
@@ -18,8 +19,6 @@ export default function AddActivity({ navigation }) {
   const [activity, setActivity] = useState("");
   const [duration, setDuration] = useState("");
   const [date, setDate] = useState(new Date());
-  const [dateTxt, setDateTxt] = useState(new Date().toDateString());
-  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const { addActivity } = useItemsList();
 
@@ -31,10 +30,8 @@ export default function AddActivity({ navigation }) {
     setDuration(duration);
   };
 
-  const handleDateChange = (event, selectedDate) => {
-    setDate(selectedDate);
-    setDateTxt(selectedDate.toDateString());
-    setShowDatePicker(!showDatePicker);
+  const handleDateChange = (date) => {
+    setDate(date);
   };
 
   const handleCancel = () => {
@@ -68,7 +65,6 @@ export default function AddActivity({ navigation }) {
 
     setActivity("");
     setDuration("");
-    setDateTxt("");
     setDate(null);
 
     navigation.goBack();
@@ -97,21 +93,7 @@ export default function AddActivity({ navigation }) {
       </View>
       <View>
         <Text style={styles.text}>Date *</Text>
-        <TextInput
-          style={styles.inputContainer}
-          onPressIn={() => setShowDatePicker(!showDatePicker)}
-          value={dateTxt}
-          editable={false}
-        />
-        {showDatePicker && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            display="inline"
-            onChange={handleDateChange}
-          />
-        )}
+        <DatePicker date={date} onDateChange={handleDateChange} />
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Cancel" onPress={handleCancel} />
@@ -136,14 +118,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
-  inputContainer: {
-    padding: 10,
-    borderWidth: 2,
-    borderColor: "darkslateblue",
-    borderRadius: 5,
-    height: 40,
-    backgroundColor: "white",
-    color: "darkslateblue",
-    fontSize: 18,
-  },
+  inputContainer: inputContainer,
 });
