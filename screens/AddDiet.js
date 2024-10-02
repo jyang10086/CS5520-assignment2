@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import DatePicker from "../components/DatePicker";
 import { inputContainer } from "../Styles";
-export default function AddDiet() {
+import { useItemsList } from "../components/context/ItemListContext";
+export default function AddDiet({navigation}) {
   const [description, setDescription] = useState("");
   const [calories, setCalories] = useState("");
   const [date, setDate] = useState(new Date());
+
+  const { addDiet } = useItemsList();
 
   const handleDescriptionChange = (activity) => {
     setDescription(activity);
@@ -18,6 +21,35 @@ export default function AddDiet() {
   const handleDateChange = (date) => {
     setDate(date);
   };
+
+  const handleCancel = () => {
+    setDescription("");
+    setCalories("");
+    navigation.goBack();
+  };
+
+
+  const handleSave = () => {
+    if (!description || calories === '' || isNaN(calories) || calories < 0) {
+      Alert.alert('Invalid input', 'Please enter valid values.');
+      return;
+    }
+    const newDiet = {
+      description,
+      calories: parseInt(calories),
+      date,
+      isSpecial: parseInt(calories) > 800,
+    };
+
+    addDiet(newDiet);
+
+    setDescription("");
+    setCalories("");
+    setDate(null);
+
+    navigation.goBack();
+  };
+
 
   return (
     <View style={styles.container}>
@@ -43,8 +75,8 @@ export default function AddDiet() {
         <DatePicker date={date} onDateChange={handleDateChange} />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Cancel" />
-        <Button title="Save" />
+        <Button title="Cancel" onPress={handleCancel} />
+        <Button title="Save" onPress={handleSave} />
       </View>
     </View>
   );
