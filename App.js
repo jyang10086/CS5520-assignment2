@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Activities from "./screens/Activities";
 import Diets from "./screens/Diets";
@@ -8,17 +8,25 @@ import Settings from "./screens/Settings";
 import AddButton from "./components/AddButton";
 import AddActivity from "./screens/AddActivity";
 import { ItemsListProvider } from "./components/context/ItemListContext";
+import AddDiet from "./screens/AddDiet";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Home = ({ navigation }) => {
-  const handleAdd = () => {
-    navigation.navigate("Add An Activity");
-  };
+const Home = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ navigation }) => ({
-        headerRight: () => <AddButton onAdd={handleAdd} />,
+      screenOptions={({ navigation, route }) => ({
+        headerRight: () => (
+          <AddButton
+            onAdd={() => {
+              if (route.name === "Activities") {
+                navigation.navigate("Add An Activity");
+              } else if (route.name === "Diets") {
+                navigation.navigate("Add A Diet");
+              }
+            }}
+          />
+        ),
       })}
     >
       <Tab.Screen name="Activities" component={Activities} />
@@ -41,6 +49,14 @@ export default function App() {
           <Stack.Screen
             name="Add An Activity"
             component={AddActivity}
+            options={{
+              headerShown: true,
+              headerBackTitleVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Add A Diet"
+            component={AddDiet}
             options={{
               headerShown: true,
               headerBackTitleVisible: false,
