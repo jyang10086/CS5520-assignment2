@@ -57,8 +57,8 @@ export default function AddActivity({ navigation }) {
     const newActivity = {
       id: Math.random().toString(),
       type: "activity",
-      value: activity,
-      time: parseInt(duration),
+      activity,
+      duration: parseInt(duration),
       date: date.toDateString(),
       isSpecial:
         ["Running", "Weights"].includes(activity) && parseInt(duration) > 60,

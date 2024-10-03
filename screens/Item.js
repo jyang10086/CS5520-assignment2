@@ -3,10 +3,14 @@ import { item } from "../Styles";
 export default function Item({ item }) {
   return (
     <View style={styles.itemContainer}>
-      <Text style={styles.text}>{item.value}</Text>
+      <Text style={styles.text}>
+        {item.type === "activity" ? item.activity : item.description}
+      </Text>
       <Text>{item.isSpecial ? "⚠️" : null}</Text>
       <Text style={styles.text}>{item.date}</Text>
-      <Text style={styles.text}>{item.time} min</Text>
+      <Text style={styles.text}>
+        {item.type === "activity" ? `${item.duration} min` : item.calories}
+      </Text>
     </View>
   );
 }

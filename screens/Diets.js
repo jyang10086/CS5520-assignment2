@@ -1,8 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
+import { useItemsList } from "../components/context/ItemListContext";
+import Item from "./Item";
 export default function Diets() {
+  const { diets } = useItemsList();
   return (
     <View>
-      <Text>Diets</Text>
+      <FlatList
+        data={diets}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Item item={item} />}
+      />
     </View>
   );
 }
