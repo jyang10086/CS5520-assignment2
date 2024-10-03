@@ -1,6 +1,6 @@
 import { FlatList, View } from "react-native";
 import { useItemsList } from "../components/context/ItemListContext";
-import Item from "./Item";
+import Item from "../components/Item";
 export default function Diets() {
   const { diets } = useItemsList();
   return (

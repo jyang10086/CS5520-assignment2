@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useItemsList } from "../components/context/ItemListContext";
-import Item from "./Item";
+import Item from "../components/Item";
 export default function Activities() {
   const { activities } = useItemsList();
   return (
