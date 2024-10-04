@@ -18,7 +18,10 @@ import {
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Home = ({ changeBgColor }) => {
+const Home = ({ setBgColor }) => {
+  const changeBgColor = (color) => {
+    setBgColor(color);
+  };
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -56,7 +59,10 @@ const Home = ({ changeBgColor }) => {
     >
       <Tab.Screen name="Activities" component={Activities} />
       <Tab.Screen name="Diets" component={Diets} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen
+        name="Settings"
+        children={() => <Settings changeBgcolor={changeBgColor} />}
+      />
     </Tab.Navigator>
   );
 };
@@ -64,9 +70,6 @@ const Home = ({ changeBgColor }) => {
 export default function App() {
   const [bgColor, setBgColor] = useState(primaryBgColor);
 
-  const changeBgColor = (color) => {
-    setBgColor(setBgColor);
-  };
   return (
     <ItemsListProvider>
       <NavigationContainer
@@ -77,11 +80,9 @@ export default function App() {
         }}
       >
         <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="Home" options={{ headerShown: false }}>
+            {(props) => <Home {...props} setBgColor={setBgColor} />}
+          </Stack.Screen>
           <Stack.Screen
             name="Add An Activity"
             component={AddActivity}

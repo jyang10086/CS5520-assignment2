@@ -2,7 +2,7 @@ import { Button, StyleSheet, View } from "react-native";
 import { settingContainer } from "../Styles";
 export default function Settings({ changeBgcolor }) {
   const handleToggleTheme = () => {
-    changeBgcolor('red');
+    changeBgcolor("red");
   };
   return (
     <View style={styles.container}>
