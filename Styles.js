@@ -11,7 +11,6 @@ export const inputContainer = {
 
 export const item = {
   itemContainer: {
-    flex: 1,
     flexDirection: "row",
     padding: 20,
     backgroundColor: "darkslateblue",
@@ -25,4 +24,10 @@ export const item = {
     fontWeight: "bold",
     fontSize: 15,
   },
+};
+
+export const itemsContainer = {
+  height: "100%",
+  backgroundColor: "lavender",
+  padding: 20,
 };

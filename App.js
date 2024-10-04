@@ -39,7 +39,7 @@ const Home = () => {
 export default function App() {
   return (
     <ItemsListProvider>
-      <NavigationContainer>
+      <NavigationContainer screenOptions={styles.naviContainer}>
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
@@ -69,7 +69,8 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  naviContainer: {
+    headerStyle: { backgroundColor: "purple" },
+    headerTintColor: "white",
   },
 });
