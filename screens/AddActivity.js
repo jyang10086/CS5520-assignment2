@@ -1,20 +1,10 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
-import { SelectList } from "react-native-dropdown-select-list";
 import { useItemsList } from "../components/context/ItemListContext";
 import DatePicker from "../components/DatePicker";
 import { addContainer, inputContainer } from "../Styles";
 import { useThemeContext } from "../components/context/ThemeContext";
-
-const activityData = [
-  { key: "1", value: "Running" },
-  { key: "2", value: "Walking" },
-  { key: "3", value: "Swimming" },
-  { key: "4", value: "Weights" },
-  { key: "5", value: "Yoga" },
-  { key: "6", value: "Cycling" },
-  { key: "7", value: "Hiking" },
-];
+import ActivitySelectList from "../components/ActivitySelectList";
 
 export default function AddActivity({ navigation }) {
   const [activity, setActivity] = useState("");
@@ -81,13 +71,7 @@ export default function AddActivity({ navigation }) {
         <Text style={[styles.text, { color: theme.textColor }]}>
           Activity *
         </Text>
-        <SelectList
-          setSelected={handleActivityChange}
-          data={activityData}
-          save="value"
-          placeholder="Select An Activity"
-          search={false}
-        />
+        <ActivitySelectList onSelect={handleActivityChange} />
       </View>
       <View>
         <Text style={[styles.text, { color: theme.textColor }]}>

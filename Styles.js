@@ -8,11 +8,11 @@ export const primaryFontColor = "darkslateblue";
 export const inputContainer = {
   padding: 10,
   borderWidth: 2,
-  borderColor: "darkslateblue",
+  borderColor: primaryFontColor,
   borderRadius: 5,
   height: 40,
   backgroundColor: "white",
-  color: "darkslateblue",
+  color: primaryFontColor,
   fontSize: 18,
 };
 
@@ -36,7 +36,7 @@ export const item = {
   itemContainer: {
     flexDirection: "row",
     padding: 20,
-    backgroundColor: "darkslateblue",
+    backgroundColor: primaryFontColor,
     borderRadius: 10,
     marginBottom: 18,
     justifyContent: "space-between",
@@ -62,4 +62,26 @@ export const settingContainer = {
   flex: 1,
   alignItems: "center",
   justifyContent: "center",
+};
+
+export const selectListContainer = {
+  box: {
+    backgroundColor: darkFontColor,
+    borderWidth: 2,
+    borderColor: primaryFontColor,
+    borderRadius: 5,
+  },
+  input: {
+    color: primaryFontColor,
+    fontSize: 18,
+  },
+  dropdown: {
+    backgroundColor: darkFontColor,
+    borderWidth: 2,
+    borderColor: primaryFontColor,
+  },
+  dropdownText: {
+    color: primaryFontColor,
+    fontSize: 18,
+  },
 };
