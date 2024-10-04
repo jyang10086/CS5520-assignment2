@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { darkBgColor, primaryBgColor } from "../../Styles";
+import { darkBgColor, darkFontColor, primaryBgColor, primaryFontColor } from "../../Styles";
 
 const ThemeContext = createContext();
 
@@ -16,7 +16,7 @@ export const ThemeProvider = ({ children }) => {
 
   const theme = {
     backgroundColor: isDarkTheme ? darkBgColor : primaryBgColor,
-    textColor: isDarkTheme ? "#fff" : "#000",
+    textColor: isDarkTheme ? darkFontColor :  primaryFontColor,
   };
 
   return (

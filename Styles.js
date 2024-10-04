@@ -2,6 +2,8 @@ export const primaryBgColor = "lavender";
 export const darkBgColor = "#882794";
 export const navHeaderBgColor = "darkslateblue";
 export const naviHeaderFontColor = "white";
+export const darkFontColor = "white";
+export const primaryFontColor = "darkslateblue";
 
 export const inputContainer = {
   padding: 10,
@@ -12,6 +14,22 @@ export const inputContainer = {
   backgroundColor: "white",
   color: "darkslateblue",
   fontSize: 18,
+};
+
+export const addContainer = {
+  container: {
+    flex: 1,
+    padding: 10,
+    rowGap: 40,
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 15,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
 };
 
 export const item = {

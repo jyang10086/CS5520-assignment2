@@ -3,7 +3,8 @@ import { useState } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useItemsList } from "../components/context/ItemListContext";
 import DatePicker from "../components/DatePicker";
-import { inputContainer } from "../Styles";
+import { addContainer, inputContainer } from "../Styles";
+import { useThemeContext } from "../components/context/ThemeContext";
 
 const activityData = [
   { key: "1", value: "Running" },
@@ -21,6 +22,7 @@ export default function AddActivity({ navigation }) {
   const [date, setDate] = useState(new Date());
 
   const { addActivity } = useItemsList();
+  const { theme } = useThemeContext();
 
   const handleActivityChange = (activity) => {
     setActivity(activity);
@@ -76,7 +78,9 @@ export default function AddActivity({ navigation }) {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.text}>Activity *</Text>
+        <Text style={[styles.text, { color: theme.textColor }]}>
+          Activity *
+        </Text>
         <SelectList
           setSelected={handleActivityChange}
           data={activityData}
@@ -86,7 +90,9 @@ export default function AddActivity({ navigation }) {
         />
       </View>
       <View>
-        <Text style={styles.text}>Duration (min) *</Text>
+        <Text style={[styles.text, { color: theme.textColor }]}>
+          Duration (min) *
+        </Text>
         <TextInput
           style={styles.inputContainer}
           value={duration}
@@ -95,7 +101,7 @@ export default function AddActivity({ navigation }) {
         />
       </View>
       <View>
-        <Text style={styles.text}>Date *</Text>
+        <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
         <DatePicker date={date} onDateChange={handleDateChange} />
       </View>
       <View style={styles.buttonContainer}>
@@ -106,19 +112,8 @@ export default function AddActivity({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    rowGap: 40,
-  },
-  text: {
-    color: "darkslateblue",
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
+  container: addContainer.container,
+  text: addContainer.text,
+  buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
 });
