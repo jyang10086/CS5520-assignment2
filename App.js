@@ -8,6 +8,7 @@ import Settings from "./screens/Settings";
 import AddButton from "./components/AddButton";
 import AddActivity from "./screens/AddActivity";
 import { ItemsListProvider } from "./components/context/ItemListContext";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import AddDiet from "./screens/AddDiet";
 
 const Stack = createNativeStackNavigator();
@@ -19,14 +20,25 @@ const Home = () => {
         headerRight: () => (
           <AddButton
             onAdd={() => {
-              if (route.name === "Activities") {
-                navigation.navigate("Add An Activity");
-              } else if (route.name === "Diets") {
-                navigation.navigate("Add A Diet");
-              }
+              const routeMappings = {
+                Activities: "Add An Activity",
+                Diets: "Add A Diet",
+              };
+
+              navigation.navigate(routeMappings[route.name]);
             }}
           />
         ),
+        tabBarIcon: ({ focused, color, size }) => {
+          const icons = {
+            Diets: focused ? "fast-food" : "fast-food-outline",
+            Activities: focused ? "bicycle" : "bicycle-outline",
+            Settings: focused ? "settings" : "settings-outline",
+          };
+          return (
+            <Ionicons name={icons[route.name]} size={size} color={color} />
+          );
+        },
       })}
     >
       <Tab.Screen name="Activities" component={Activities} />
