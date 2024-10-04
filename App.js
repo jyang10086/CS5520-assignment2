@@ -17,18 +17,20 @@ const Home = () => {
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
-        headerRight: () => (
-          <AddButton
-            onAdd={() => {
-              const routeMappings = {
-                Activities: "Add An Activity",
-                Diets: "Add A Diet",
-              };
+        headerRight: () => {
+          return route.name !== "Settings" ? (
+            <AddButton
+              onAdd={() => {
+                const routeMappings = {
+                  Activities: "Add An Activity",
+                  Diets: "Add A Diet",
+                };
 
-              navigation.navigate(routeMappings[route.name]);
-            }}
-          />
-        ),
+                navigation.navigate(routeMappings[route.name]);
+              }}
+            />
+          ) : null;
+        },
         tabBarIcon: ({ focused, color, size }) => {
           const icons = {
             Diets: focused ? "fast-food" : "fast-food-outline",
