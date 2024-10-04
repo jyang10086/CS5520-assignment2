@@ -1,3 +1,7 @@
+export const primaryBgColor = "lavender";
+export const navHeaderBgColor = "darkslateblue";
+export const naviHeaderFontColor = "white";
+
 export const inputContainer = {
   padding: 10,
   borderWidth: 2,
@@ -26,8 +30,17 @@ export const item = {
   },
 };
 
+export const screenContainer = {
+  bgColor: primaryBgColor,
+};
+
 export const itemsContainer = {
   height: "100%",
-  backgroundColor: "lavender",
   padding: 20,
+};
+
+export const settingContainer = {
+  flex: 1,
+  alignItems: "center",
+  justifyContent: "center",
 };

@@ -30,7 +30,7 @@ export default function AddDiet({ navigation }) {
 
   const handleSave = () => {
     if (!description || calories === "" || isNaN(calories) || calories < 0) {
-      Alert.alert("Invalid input", "Please enter valid values.");
+      Alert.alert("Invalid input", "Please check your input values.");
       return;
     }
     const newDiet = {

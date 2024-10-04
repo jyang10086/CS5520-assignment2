@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -10,10 +10,15 @@ import AddActivity from "./screens/AddActivity";
 import { ItemsListProvider } from "./components/context/ItemListContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AddDiet from "./screens/AddDiet";
+import {
+  navHeaderBgColor,
+  naviHeaderFontColor,
+  primaryBgColor,
+} from "./Styles";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Home = () => {
+const Home = ({ changeBgColor }) => {
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -37,10 +42,16 @@ const Home = () => {
             Activities: focused ? "bicycle" : "bicycle-outline",
             Settings: focused ? "settings" : "settings-outline",
           };
+          const iconColor = focused ? "orange" : color;
           return (
-            <Ionicons name={icons[route.name]} size={size} color={color} />
+            <Ionicons name={icons[route.name]} size={size} color={iconColor} />
           );
         },
+        headerStyle: { backgroundColor: navHeaderBgColor },
+        headerTintColor: "white",
+        tabBarStyle: { backgroundColor: navHeaderBgColor },
+        tabBarActiveTintColor: "orange",
+        tabBarInactiveTintColor: "gray",
       })}
     >
       <Tab.Screen name="Activities" component={Activities} />
@@ -51,9 +62,20 @@ const Home = () => {
 };
 
 export default function App() {
+  const [bgColor, setBgColor] = useState(primaryBgColor);
+
+  const changeBgColor = (color) => {
+    setBgColor(setBgColor);
+  };
   return (
     <ItemsListProvider>
-      <NavigationContainer screenOptions={styles.naviContainer}>
+      <NavigationContainer
+        theme={{
+          colors: {
+            background: bgColor,
+          },
+        }}
+      >
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
@@ -66,6 +88,10 @@ export default function App() {
             options={{
               headerShown: true,
               headerBackTitleVisible: false,
+              headerStyle: {
+                backgroundColor: navHeaderBgColor,
+              },
+              headerTintColor: naviHeaderFontColor,
             }}
           />
           <Stack.Screen
@@ -74,6 +100,10 @@ export default function App() {
             options={{
               headerShown: true,
               headerBackTitleVisible: false,
+              headerStyle: {
+                backgroundColor: navHeaderBgColor,
+              },
+              headerTintColor: naviHeaderFontColor,
             }}
           />
         </Stack.Navigator>
@@ -81,10 +111,3 @@ export default function App() {
     </ItemsListProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  naviContainer: {
-    headerStyle: { backgroundColor: "purple" },
-    headerTintColor: "white",
-  },
-});

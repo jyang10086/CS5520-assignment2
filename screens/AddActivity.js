@@ -51,7 +51,7 @@ export default function AddActivity({ navigation }) {
   const handleSave = () => {
     const isDurationValid = validateDurationInput(duration);
     if (!isDurationValid || activity.length === 0 || !date) {
-      Alert.alert("Invalid input", "Please check your input values");
+      Alert.alert("Invalid input", "Please check your input values.");
       return;
     }
     const newActivity = {
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    marginTop: 20,
     rowGap: 40,
   },
   text: {
