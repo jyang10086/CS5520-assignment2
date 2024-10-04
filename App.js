@@ -11,6 +11,7 @@ import { ItemsListProvider } from "./components/context/ItemListContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AddDiet from "./screens/AddDiet";
 import {
+  darkBgColor,
   navHeaderBgColor,
   naviHeaderFontColor,
   primaryBgColor,
@@ -18,10 +19,7 @@ import {
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const Home = ({ setBgColor }) => {
-  const changeBgColor = (color) => {
-    setBgColor(color);
-  };
+const Home = ({ toggleTheme }) => {
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -61,15 +59,20 @@ const Home = ({ setBgColor }) => {
       <Tab.Screen name="Diets" component={Diets} />
       <Tab.Screen
         name="Settings"
-        children={() => <Settings changeBgcolor={changeBgColor} />}
+        children={() => <Settings toggleTheme={toggleTheme} />}
       />
     </Tab.Navigator>
   );
 };
 
 export default function App() {
-  const [bgColor, setBgColor] = useState(primaryBgColor);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
+  const bgColor = isDarkTheme ? darkBgColor : primaryBgColor;
+
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
   return (
     <ItemsListProvider>
       <NavigationContainer
@@ -81,7 +84,7 @@ export default function App() {
       >
         <Stack.Navigator>
           <Stack.Screen name="Home" options={{ headerShown: false }}>
-            {(props) => <Home {...props} setBgColor={setBgColor} />}
+            {(props) => <Home {...props} toggleTheme={toggleTheme} />}
           </Stack.Screen>
           <Stack.Screen
             name="Add An Activity"

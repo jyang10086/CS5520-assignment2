@@ -1,4 +1,5 @@
 export const primaryBgColor = "lavender";
+export const darkBgColor = "#882794";
 export const navHeaderBgColor = "darkslateblue";
 export const naviHeaderFontColor = "white";
 
