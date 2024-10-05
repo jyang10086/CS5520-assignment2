@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import DatePicker from "../components/DatePicker";
 import { addContainer, inputContainer } from "../Styles";
 import { useItemsList } from "../components/context/ItemListContext";
@@ -54,38 +62,40 @@ export default function AddDiet({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={[styles.text, { color: theme.textColor }]}>
-          Description *
-        </Text>
-        <TextInput
-          style={{ ...styles.inputContainer, height: 120 }}
-          value={description}
-          onChangeText={handleDescriptionChange}
-          multiline={true}
-          numberOfLines={4}
-        />
-      </View>
-      <View>
-        <Text style={[styles.text, { color: theme.textColor }]}>
-          Calories *
-        </Text>
-        <TextInput
-          style={styles.inputContainer}
-          value={calories}
-          onChangeText={handleCaloriesChange}
-          keyboardType="numeric"
-        />
-      </View>
-      <View>
-        <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
-        <DatePicker date={date} onDateChange={handleDateChange} />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Cancel" onPress={handleCancel} />
-        <Button title="Save" onPress={handleSave} />
-      </View>
+    <View>
+      <ScrollView contentContainerStyle={styles.container} bounces={true}>
+        <View>
+          <Text style={[styles.text, { color: theme.textColor }]}>
+            Description *
+          </Text>
+          <TextInput
+            style={{ ...styles.inputContainer, height: 120 }}
+            value={description}
+            onChangeText={handleDescriptionChange}
+            multiline={true}
+            numberOfLines={4}
+          />
+        </View>
+        <View>
+          <Text style={[styles.text, { color: theme.textColor }]}>
+            Calories *
+          </Text>
+          <TextInput
+            style={styles.inputContainer}
+            value={calories}
+            onChangeText={handleCaloriesChange}
+            keyboardType="numeric"
+          />
+        </View>
+        <View>
+          <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
+          <DatePicker date={date} onDateChange={handleDateChange} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Cancel" onPress={handleCancel} />
+          <Button title="Save" onPress={handleSave} />
+        </View>
+      </ScrollView>
     </View>
   );
 }

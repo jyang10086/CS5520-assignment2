@@ -18,7 +18,7 @@ export const inputContainer = {
 
 export const addContainer = {
   container: {
-    flex: 1,
+    marginTop: 20,
     padding: 10,
     rowGap: 40,
   },

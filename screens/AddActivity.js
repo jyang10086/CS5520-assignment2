@@ -1,4 +1,12 @@
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Button,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useState } from "react";
 import { useItemsList } from "../components/context/ItemListContext";
 import DatePicker from "../components/DatePicker";
@@ -66,7 +74,7 @@ export default function AddActivity({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container} bounces={true}>
       <View>
         <Text style={[styles.text, { color: theme.textColor }]}>
           Activity *
@@ -92,7 +100,7 @@ export default function AddActivity({ navigation }) {
         <Button title="Cancel" onPress={handleCancel} />
         <Button title="Save" onPress={handleSave} />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({

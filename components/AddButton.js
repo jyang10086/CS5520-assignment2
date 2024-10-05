@@ -5,7 +5,7 @@ export default function AddButton({ onAdd }) {
     onAdd();
   };
   return (
-    <View>
+    <View style={{ marginRight: 10 }}>
       <Button title="Add" onPress={addHandler} />
     </View>
   );
