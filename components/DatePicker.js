@@ -6,6 +6,7 @@ export default function DatePicker({ date, onDateChange }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dateTxt, setDateTxt] = useState();
   const handleDateChange = (event, selectedDate) => {
+    // If no date is selected, default to the current date
     const currentDate = selectedDate || new Date();
     setShowDatePicker(false);
     onDateChange(currentDate);
@@ -13,6 +14,7 @@ export default function DatePicker({ date, onDateChange }) {
   };
   const toggleDatePicker = () => {
     setShowDatePicker(!showDatePicker);
+    // If no date has been selected yet, set it to today's date
     if (!dateTxt) {
       setDateTxt(new Date().toDateString());
     }
@@ -20,7 +22,9 @@ export default function DatePicker({ date, onDateChange }) {
 
   return (
     <View>
+      {/* TouchableOpacity used to detect taps and toggle the DatePicker */}
       <TouchableOpacity onPressIn={toggleDatePicker}>
+        {/* TextInput to display the selected date, styled as an input but not editable */}
         <TextInput
           style={styles.inputContainer}
           onPressIn={toggleDatePicker}

@@ -74,13 +74,16 @@ export default function AddActivity({ navigation }) {
   };
 
   return (
+    //  ScrollView allows the content to be scrollable.
     <ScrollView contentContainerStyle={styles.container} bounces={true}>
+      {/* Input for selecting an activity */}
       <View>
         <Text style={[styles.text, { color: theme.textColor }]}>
           Activity *
         </Text>
         <ActivitySelectList onSelect={handleActivityChange} />
       </View>
+      {/* Input for entering the duration */}
       <View>
         <Text style={[styles.text, { color: theme.textColor }]}>
           Duration (min) *
@@ -92,6 +95,7 @@ export default function AddActivity({ navigation }) {
           keyboardType="numeric"
         />
       </View>
+      {/* Date picker for selecting the activity date */}
       <View>
         <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
         <DatePicker date={date} onDateChange={handleDateChange} />

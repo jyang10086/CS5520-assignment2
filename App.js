@@ -21,20 +21,22 @@ const Home = () => {
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
+        // Adding a custom AddButton in the header for Activities and Diets, not for Settings
         headerRight: () => {
           return route.name !== "Settings" ? (
             <AddButton
               onAdd={() => {
+                // Mapping routes to screens for navigation
                 const routeMappings = {
                   Activities: "Add An Activity",
                   Diets: "Add A Diet",
                 };
-
-                navigation.navigate(routeMappings[route.name]);
+                navigation.navigate(routeMappings[route.name]); // Navigate to the corresponding screen
               }}
             />
           ) : null;
         },
+        // Setting the tab bar icons for each route with dynamic colors based on focus state
         tabBarIcon: ({ focused, color, size }) => {
           const icons = {
             Diets: focused ? "fast-food" : "fast-food-outline",
@@ -46,6 +48,7 @@ const Home = () => {
             <Ionicons name={icons[route.name]} size={size} color={iconColor} />
           );
         },
+        // Customizing header and tab bar styles
         headerStyle: { backgroundColor: navHeaderBgColor },
         headerTintColor: "white",
         tabBarStyle: { backgroundColor: navHeaderBgColor },
@@ -53,6 +56,7 @@ const Home = () => {
         tabBarInactiveTintColor: "gray",
       })}
     >
+      {/* Defining tab screens for Activities, Diets, and Settings */}
       <Tab.Screen name="Activities" component={Activities} />
       <Tab.Screen name="Diets" component={Diets} />
       <Tab.Screen name="Settings" component={Settings} />
@@ -60,6 +64,7 @@ const Home = () => {
   );
 };
 
+// MainScreen component wrapping Home in a Stack Navigator to handle additional screens
 const MainScreen = () => {
   const { theme } = useThemeContext();
   return (
@@ -71,11 +76,13 @@ const MainScreen = () => {
       }}
     >
       <Stack.Navigator>
+        {/* Home screen without header */}
         <Stack.Screen
           name="Home"
           component={Home}
           options={{ headerShown: false }}
         />
+        {/* Screen for adding an activity with custom header styles */}
         <Stack.Screen
           name="Add An Activity"
           component={AddActivity}
@@ -83,11 +90,12 @@ const MainScreen = () => {
             headerShown: true,
             headerBackTitleVisible: false,
             headerStyle: {
-              backgroundColor: navHeaderBgColor,
+              backgroundColor: navHeaderBgColor, // Custom header background color
             },
-            headerTintColor: naviHeaderFontColor,
+            headerTintColor: naviHeaderFontColor, // Custom header text color
           }}
         />
+        {/* Screen for adding a diet with custom header styles */}
         <Stack.Screen
           name="Add A Diet"
           component={AddDiet}
@@ -105,6 +113,7 @@ const MainScreen = () => {
   );
 };
 
+// App component as the main entry point
 export default function App() {
   return (
     <ThemeProvider>

@@ -63,11 +63,16 @@ export default function AddDiet({ navigation }) {
 
   return (
     <View>
+      {/* ScrollView allows the content to be scrollable. */}
       <ScrollView contentContainerStyle={styles.container} bounces={true}>
+        {/* View for the Description input field */}
         <View>
+          {/* Label for the description, styled with dynamic text color based on the current theme */}
           <Text style={[styles.text, { color: theme.textColor }]}>
             Description *
           </Text>
+
+          {/* TextInput for entering a multi-line description. */}
           <TextInput
             style={{ ...styles.inputContainer, height: 120 }}
             value={description}
@@ -76,10 +81,16 @@ export default function AddDiet({ navigation }) {
             numberOfLines={4}
           />
         </View>
+
+        {/* View for the Calories input field */}
         <View>
+          {/* Label for the calories input, with dynamic styling based on theme */}
           <Text style={[styles.text, { color: theme.textColor }]}>
             Calories *
           </Text>
+
+          {/* TextInput for entering calorie value. 
+              'keyboardType' is set to numeric to allow only number inputs. */}
           <TextInput
             style={styles.inputContainer}
             value={calories}
@@ -87,12 +98,21 @@ export default function AddDiet({ navigation }) {
             keyboardType="numeric"
           />
         </View>
+
+        {/* View for the Date input field */}
         <View>
+          {/* Label for the date, also styled dynamically based on the theme */}
           <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
+
+          {/* Custom DatePicker component to select the date. */}
           <DatePicker date={date} onDateChange={handleDateChange} />
         </View>
+
+        {/* View for the buttons (Cancel and Save) */}
         <View style={styles.buttonContainer}>
+          {/* Cancel button */}
           <Button title="Cancel" onPress={handleCancel} />
+          {/* Save button */}
           <Button title="Save" onPress={handleSave} />
         </View>
       </ScrollView>
