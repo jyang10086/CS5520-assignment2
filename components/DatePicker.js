@@ -4,14 +4,18 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { inputContainer } from "../Styles";
 export default function DatePicker({ date, onDateChange }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [dateTxt, setDateTxt] = useState(new Date().toDateString());
+  const [dateTxt, setDateTxt] = useState();
   const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || new Date();
     setShowDatePicker(false);
-    onDateChange(selectedDate);
-    setDateTxt(selectedDate.toDateString());
+    onDateChange(currentDate);
+    setDateTxt(currentDate.toDateString());
   };
   const toggleDatePicker = () => {
     setShowDatePicker(!showDatePicker);
+    if (!dateTxt) {
+      setDateTxt(new Date().toDateString());
+    }
   };
 
   return (
