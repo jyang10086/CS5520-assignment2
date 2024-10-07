@@ -1,8 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Activities from "./screens/Activities";
-import Diets from "./screens/Diets";
 import Settings from "./screens/Settings";
 import AddButton from "./components/AddButton";
 import AddActivity from "./screens/AddActivity";
@@ -14,6 +12,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AddDiet from "./screens/AddDiet";
 import { navHeaderBgColor, naviHeaderFontColor } from "./Styles";
+import Items from "./screens/Items";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,8 +56,8 @@ const Home = () => {
       })}
     >
       {/* Defining tab screens for Activities, Diets, and Settings */}
-      <Tab.Screen name="Activities" component={Activities} />
-      <Tab.Screen name="Diets" component={Diets} />
+      <Tab.Screen name="Activities" component={Items} />
+      <Tab.Screen name="Diets" component={Items} />
       <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
