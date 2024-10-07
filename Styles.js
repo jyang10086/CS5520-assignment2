@@ -41,11 +41,22 @@ export const item = {
     marginBottom: 18,
     justifyContent: "space-between",
     alignItems: "center",
+    columnGap: 5,
   },
   typeText: {
-    color: "white",
+    flex: 1,
+    color: darkFontColor,
     fontWeight: "bold",
     fontSize: 15,
+  },
+  detailText: {
+    flex: 1,
+    color: primaryFontColor,
+    fontWeight: "bold",
+    backgroundColor: darkFontColor,
+    fontSize: 15,
+    padding: 5,
+    textAlign: "center",
   },
 };
 
