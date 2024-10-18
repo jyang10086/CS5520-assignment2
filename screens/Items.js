@@ -9,7 +9,11 @@ export default function Items({ navigation, route }) {
   // Check the route name to determine which data to display
   const items = route.name === "Activities" ? activities : diets;
   const handlePress = (item) => {
-    navigation.navigate("Edit An Activity", { mode: "edit", item });
+    if (route.name === "Activities") {
+      navigation.navigate("Edit An Activity", { mode: "edit", item });
+    } else {
+      navigation.navigate("Edit A Diet", { mode: "edit", item });
+    }
   };
 
   const renderItem = ({ item }) => (

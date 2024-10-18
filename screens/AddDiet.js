@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -12,13 +12,28 @@ import DatePicker from "../components/DatePicker";
 import { addContainer, inputContainer } from "../Styles";
 import { useItemsList } from "../components/context/ItemListContext";
 import { useThemeContext } from "../components/context/ThemeContext";
-export default function AddDiet({ navigation }) {
+export default function AddDiet({ navigation, route }) {
   const [description, setDescription] = useState("");
   const [calories, setCalories] = useState("");
   const [date, setDate] = useState(new Date());
+  const [isSpecial, setIsSpecial] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { addDiet } = useItemsList();
   const { theme } = useThemeContext();
+
+  useEffect(() => {
+    const { mode, item } = route.params;
+    if (mode === "edit") {
+      setIsEdit(true);
+      const { calories, date, description, isSpecial } = item;
+      console.log(item);
+      setCalories(calories?.toString() || '');
+      setDate(new Date(date));
+      setDescription(description);
+      setIsSpecial(isSpecial);
+    }
+  }, [route.params]);
 
   const handleDescriptionChange = (activity) => {
     setDescription(activity);

@@ -1,26 +1,41 @@
 import {
   Alert,
   Button,
+  CheckBox,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useItemsList } from "../components/context/ItemListContext";
 import DatePicker from "../components/DatePicker";
 import { addContainer, inputContainer } from "../Styles";
 import { useThemeContext } from "../components/context/ThemeContext";
 import ActivitySelectList from "../components/ActivitySelectList";
 
-export default function AddActivity({ navigation }) {
+export default function AddActivity({ navigation, route = {} }) {
   const [activity, setActivity] = useState("");
   const [duration, setDuration] = useState("");
   const [date, setDate] = useState(new Date());
+  const [isSpecial, setIsSpecial] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { addActivity } = useItemsList();
   const { theme } = useThemeContext();
+
+  useEffect(() => {
+    const { mode, item } = route.params;
+    if (mode === "edit") {
+      setIsEdit(true);
+      const { activity, duration, date, isSpecial } = item;
+      setActivity(activity || "");
+      setDuration(duration?.toString() || "");
+      setDate(new Date(date));
+      setIsSpecial(isSpecial);
+    }
+  }, [route.params]);
 
   const handleActivityChange = (activity) => {
     setActivity(activity);
@@ -81,7 +96,10 @@ export default function AddActivity({ navigation }) {
         <Text style={[styles.text, { color: theme.textColor }]}>
           Activity *
         </Text>
-        <ActivitySelectList onSelect={handleActivityChange} />
+        <ActivitySelectList
+          defaultActivity={activity}
+          onSelect={handleActivityChange}
+        />
       </View>
       {/* Input for entering the duration */}
       <View>
@@ -100,6 +118,12 @@ export default function AddActivity({ navigation }) {
         <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
         <DatePicker date={date} onDateChange={handleDateChange} />
       </View>
+      {/* {isSpecial && (
+        <View style={styles.checkboxContainer}>
+          <CheckBox value={isSpecial} onValueChange={setIsSpecial} />
+          <Text>Mark as not special</Text>
+        </View>
+      )} */}
       <View style={styles.buttonContainer}>
         <Button title="Cancel" onPress={handleCancel} />
         <Button title="Save" onPress={handleSave} />

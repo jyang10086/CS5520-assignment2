@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native";
-import React from "react";
 import { selectListContainer } from "../Styles";
 import { SelectList } from "react-native-dropdown-select-list";
-export default function ActivitySelectList({ onSelect }) {
+export default function ActivitySelectList({ defaultActivity, onSelect }) {
   const handleActivityChange = (activity) => {
     onSelect(activity);
   };
@@ -17,9 +16,13 @@ export default function ActivitySelectList({ onSelect }) {
     { key: "7", value: "Hiking" },
   ];
 
+  const defaultOption = data.find((el) => el.value === defaultActivity) || null;
+
+
   return (
     <SelectList
       setSelected={handleActivityChange}
+      defaultOption={defaultOption}
       data={data}
       save="value"
       placeholder="Select An Activity"
