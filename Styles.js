@@ -96,3 +96,18 @@ export const selectListContainer = {
     fontSize: 18,
   },
 };
+
+export const pressableButtonStyles = {
+  defaultStyle: {
+    backgroundColor:"transparent",
+  },
+  pressed: { opacity: 0.5 },
+  disabled: { opacity: 0.5 },
+};
+
+export const AddButtonStyle = {
+  defaultStyle: {
+    flexDirection: "row",
+    margin: 10,
+  },
+};

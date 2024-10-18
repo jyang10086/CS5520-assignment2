@@ -2,7 +2,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Settings from "./screens/Settings";
-import AddButton from "./components/AddButton";
 import AddActivity from "./screens/AddActivity";
 import { ItemsListProvider } from "./components/context/ItemListContext";
 import {
@@ -13,10 +12,15 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import AddDiet from "./screens/AddDiet";
 import { navHeaderBgColor, naviHeaderFontColor } from "./Styles";
 import Items from "./screens/Items";
+import AddButton from "./components/AddButton";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Home = () => {
+  const routeMappings = {
+    Activities: "Add An Activity",
+    Diets: "Add A Diet",
+  };
   return (
     <Tab.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -24,13 +28,14 @@ const Home = () => {
         headerRight: () => {
           return route.name !== "Settings" ? (
             <AddButton
+              icon={route.name === "Activities" ? "bicycle" : "fast-food"}
               onAdd={() => {
-                // Mapping routes to screens for navigation
-                const routeMappings = {
-                  Activities: "Add An Activity",
-                  Diets: "Add A Diet",
-                };
-                navigation.navigate(routeMappings[route.name]); // Navigate to the corresponding screen
+                navigation.navigate(routeMappings[route.name], { mode: "add" }); // Navigate to the corresponding screen
+              }}
+              onEdit={() => {
+                navigation.navigate(routeMappings[route.name], {
+                  mode: "edit",
+                }); // Navigate to the corresponding screen
               }}
             />
           ) : null;
