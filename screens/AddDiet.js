@@ -44,7 +44,7 @@ export default function AddDiet({ navigation }) {
       return;
     }
     const newDiet = {
-      id: Math.random().toString(),
+      // id: Math.random().toString(),
       type: "diet",
       description,
       calories: parseInt(calories),

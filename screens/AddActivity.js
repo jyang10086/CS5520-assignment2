@@ -55,7 +55,7 @@ export default function AddActivity({ navigation }) {
       return;
     }
     const newActivity = {
-      id: Math.random().toString(),
+      // id: Math.random().toString(),
       type: "activity",
       activity,
       duration: parseInt(duration),
