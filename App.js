@@ -32,11 +32,6 @@ const Home = () => {
               onAdd={() => {
                 navigation.navigate(routeMappings[route.name], { mode: "add" }); // Navigate to the corresponding screen
               }}
-              onEdit={() => {
-                navigation.navigate(routeMappings[route.name], {
-                  mode: "edit",
-                }); // Navigate to the corresponding screen
-              }}
             />
           ) : null;
         },
@@ -71,6 +66,14 @@ const Home = () => {
 // MainScreen component wrapping Home in a Stack Navigator to handle additional screens
 const MainScreen = () => {
   const { theme } = useThemeContext();
+  const screenOptions = {
+    headerShown: true,
+    headerBackTitleVisible: false,
+    headerStyle: {
+      backgroundColor: navHeaderBgColor, // Custom header background color
+    },
+    headerTintColor: naviHeaderFontColor, // Custom header text color
+  };
   return (
     <NavigationContainer
       theme={{
@@ -90,27 +93,25 @@ const MainScreen = () => {
         <Stack.Screen
           name="Add An Activity"
           component={AddActivity}
-          options={{
-            headerShown: true,
-            headerBackTitleVisible: false,
-            headerStyle: {
-              backgroundColor: navHeaderBgColor, // Custom header background color
-            },
-            headerTintColor: naviHeaderFontColor, // Custom header text color
-          }}
+          options={screenOptions}
         />
         {/* Screen for adding a diet with custom header styles */}
         <Stack.Screen
           name="Add A Diet"
           component={AddDiet}
-          options={{
-            headerShown: true,
-            headerBackTitleVisible: false,
-            headerStyle: {
-              backgroundColor: navHeaderBgColor,
-            },
-            headerTintColor: naviHeaderFontColor,
-          }}
+          options={screenOptions}
+        />
+        {/* Screen for editing an activity with custom header styles */}
+        <Stack.Screen
+          name="Edit An Activity"
+          component={AddActivity}
+          options={screenOptions}
+        />
+        {/* Screen for editing a diet with custom header styles */}
+        <Stack.Screen
+          name="Edit A Diet"
+          component={AddDiet}
+          options={screenOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>
