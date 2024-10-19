@@ -19,11 +19,12 @@ export default function AddDiet({ navigation, route }) {
   const [isSpecial, setIsSpecial] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const { addDiet } = useItemsList();
+  const { addDiet, updateDiet } = useItemsList();
   const { theme } = useThemeContext();
 
+  const { mode, item } = route.params;
+  
   useEffect(() => {
-    const { mode, item } = route.params;
     if (mode === "edit") {
       setIsEdit(true);
       const { calories, date, description, isSpecial } = item;
@@ -59,7 +60,7 @@ export default function AddDiet({ navigation, route }) {
       return;
     }
     const newDiet = {
-      // id: Math.random().toString(),
+      id: isEdit ? item.id : "",
       type: "diet",
       description,
       calories: parseInt(calories),
@@ -67,7 +68,11 @@ export default function AddDiet({ navigation, route }) {
       isSpecial: parseInt(calories) > 800,
     };
 
-    addDiet(newDiet);
+    if (!isEdit) {
+      addDiet(newDiet);
+    } else {
+      updateDiet(newDiet);
+    }
 
     setDescription("");
     setCalories("");

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { createContext, useState, useContext } from "react";
 import { database } from "../../firebase/firebaseSetup";
-import { writeToDB } from "../../firebase/firestoreHelper";
+import { updateFromDB, writeToDB } from "../../firebase/firestoreHelper";
 
 // Creating a context to hold items (activities and diets)
 const ItemsListContext = createContext();
@@ -23,6 +23,14 @@ export const ItemsListProvider = ({ children }) => {
 
   const addDiet = (diet) => {
     writeToDB("diets", diet);
+  };
+
+  const updateActivity = (activity) => {
+    updateFromDB("activities", activity);
+  };
+
+  const updateDiet = (diet) => {
+    updateFromDB("diets", diet);
   };
 
   useEffect(() => {
@@ -59,7 +67,14 @@ export const ItemsListProvider = ({ children }) => {
   // These will be accessible to any components wrapped inside ItemsListProvider
   return (
     <ItemsListContext.Provider
-      value={{ activities, addActivity, addDiet, diets }}
+      value={{
+        activities,
+        addActivity,
+        addDiet,
+        diets,
+        updateDiet,
+        updateActivity,
+      }}
     >
       {children}
       {/* Rendering the children components wrapped by this provider */}

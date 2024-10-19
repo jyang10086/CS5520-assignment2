@@ -22,11 +22,13 @@ export default function AddActivity({ navigation, route = {} }) {
   const [isSpecial, setIsSpecial] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const { addActivity } = useItemsList();
+  const { addActivity, updateActivity } = useItemsList();
   const { theme } = useThemeContext();
 
+  const { mode, item } = route.params;
+
+  console.log(item);
   useEffect(() => {
-    const { mode, item } = route.params;
     if (mode === "edit") {
       setIsEdit(true);
       const { activity, duration, date, isSpecial } = item;
@@ -38,6 +40,7 @@ export default function AddActivity({ navigation, route = {} }) {
   }, [route.params]);
 
   const handleActivityChange = (activity) => {
+    console.log(activity);
     setActivity(activity);
   };
 
@@ -70,7 +73,7 @@ export default function AddActivity({ navigation, route = {} }) {
       return;
     }
     const newActivity = {
-      // id: Math.random().toString(),
+      id: isEdit ? item.id : "",
       type: "activity",
       activity,
       duration: parseInt(duration),
@@ -79,11 +82,15 @@ export default function AddActivity({ navigation, route = {} }) {
         ["Running", "Weights"].includes(activity) && parseInt(duration) > 60,
     };
 
-    addActivity(newActivity);
-
+    if (!isEdit) {
+      addActivity(newActivity);
+    } else {
+      updateActivity(newActivity);
+    }
     setActivity("");
     setDuration("");
     setDate(null);
+    setIsSpecial(false);
 
     navigation.goBack();
   };
@@ -97,7 +104,8 @@ export default function AddActivity({ navigation, route = {} }) {
           Activity *
         </Text>
         <ActivitySelectList
-          defaultActivity={activity}
+          editMode={isEdit}
+          activity={activity}
           onSelect={handleActivityChange}
         />
       </View>
