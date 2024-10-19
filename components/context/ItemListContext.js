@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { createContext, useState, useContext } from "react";
 import { database } from "../../firebase/firebaseSetup";
-import { updateFromDB, writeToDB } from "../../firebase/firestoreHelper";
+import {
+  deleteFromDB,
+  updateFromDB,
+  writeToDB,
+} from "../../firebase/firestoreHelper";
 
 // Creating a context to hold items (activities and diets)
 const ItemsListContext = createContext();
@@ -31,6 +35,14 @@ export const ItemsListProvider = ({ children }) => {
 
   const updateDiet = (diet) => {
     updateFromDB("diets", diet);
+  };
+
+  const deleteActivity = (activityId) => {
+    deleteFromDB("activities", activityId);
+  };
+
+  const deleteDiet = (dietId) => {
+    deleteFromDB("diets", dietId);
   };
 
   useEffect(() => {
@@ -74,6 +86,8 @@ export const ItemsListProvider = ({ children }) => {
         diets,
         updateDiet,
         updateActivity,
+        deleteActivity,
+        deleteDiet,
       }}
     >
       {children}

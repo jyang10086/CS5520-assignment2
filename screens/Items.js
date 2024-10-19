@@ -10,9 +10,9 @@ export default function Items({ navigation, route }) {
   const items = route.name === "Activities" ? activities : diets;
   const handlePress = (item) => {
     if (route.name === "Activities") {
-      navigation.navigate("Edit An Activity", { mode: "edit", item });
+      navigation.navigate("Add An Activity", { mode: "edit", item });
     } else {
-      navigation.navigate("Edit A Diet", { mode: "edit", item });
+      navigation.navigate("Add A Diet", { mode: "edit", item });
     }
   };
 

@@ -8,10 +8,12 @@ import {
   TextInput,
   View,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import DatePicker from "../components/DatePicker";
 import { addContainer, inputContainer } from "../Styles";
 import { useItemsList } from "../components/context/ItemListContext";
 import { useThemeContext } from "../components/context/ThemeContext";
+import PressableButton from "../components/PressableButton";
 export default function AddDiet({ navigation, route }) {
   const [description, setDescription] = useState("");
   const [calories, setCalories] = useState("");
@@ -19,22 +21,53 @@ export default function AddDiet({ navigation, route }) {
   const [isSpecial, setIsSpecial] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const { addDiet, updateDiet } = useItemsList();
+  const { addDiet, deleteDiet, updateDiet } = useItemsList();
   const { theme } = useThemeContext();
 
   const { mode, item } = route.params;
-  
+
   useEffect(() => {
     if (mode === "edit") {
       setIsEdit(true);
       const { calories, date, description, isSpecial } = item;
       console.log(item);
-      setCalories(calories?.toString() || '');
+      setCalories(calories?.toString() || "");
       setDate(new Date(date));
       setDescription(description);
       setIsSpecial(isSpecial);
     }
   }, [route.params]);
+
+  useEffect(() => {
+    if (isEdit) {
+      navigation.setOptions({
+        title: "Edit",
+        headerRight: () => (
+          <PressableButton onPress={handleDelete}>
+            <Ionicons name="trash-outline" size={24} color="white" />
+          </PressableButton>
+        ),
+      });
+    }
+  }, [isEdit]);
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete",
+      "Are you sure you want to delete this item?",
+      [
+        { text: "No" },
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteDiet(item.id);
+            navigation.goBack();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   const handleDescriptionChange = (activity) => {
     setDescription(activity);

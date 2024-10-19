@@ -101,18 +101,6 @@ const MainScreen = () => {
           component={AddDiet}
           options={screenOptions}
         />
-        {/* Screen for editing an activity with custom header styles */}
-        <Stack.Screen
-          name="Edit An Activity"
-          component={AddActivity}
-          options={screenOptions}
-        />
-        {/* Screen for editing a diet with custom header styles */}
-        <Stack.Screen
-          name="Edit A Diet"
-          component={AddDiet}
-          options={screenOptions}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );

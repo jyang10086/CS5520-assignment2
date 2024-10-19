@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  CheckBox,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,11 +8,13 @@ import {
   View,
 } from "react-native";
 import { useEffect, useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useItemsList } from "../components/context/ItemListContext";
 import DatePicker from "../components/DatePicker";
 import { addContainer, inputContainer } from "../Styles";
 import { useThemeContext } from "../components/context/ThemeContext";
 import ActivitySelectList from "../components/ActivitySelectList";
+import PressableButton from "../components/PressableButton";
 
 export default function AddActivity({ navigation, route = {} }) {
   const [activity, setActivity] = useState("");
@@ -22,12 +23,10 @@ export default function AddActivity({ navigation, route = {} }) {
   const [isSpecial, setIsSpecial] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const { addActivity, updateActivity } = useItemsList();
+  const { addActivity, deleteActivity, updateActivity } = useItemsList();
   const { theme } = useThemeContext();
 
   const { mode, item } = route.params;
-
-  console.log(item);
   useEffect(() => {
     if (mode === "edit") {
       setIsEdit(true);
@@ -39,8 +38,38 @@ export default function AddActivity({ navigation, route = {} }) {
     }
   }, [route.params]);
 
+  useEffect(() => {
+    if (isEdit) {
+      navigation.setOptions({
+        title: "Edit",
+        headerRight: () => (
+          <PressableButton onPress={handleDelete}>
+            <Ionicons name="trash-outline" size={24} color="white" />
+          </PressableButton>
+        ),
+      });
+    }
+  }, [isEdit]);
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete",
+      "Are you sure you want to delete this item?",
+      [
+        { text: "No" },
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteActivity(item.id);
+            navigation.goBack();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const handleActivityChange = (activity) => {
-    console.log(activity);
     setActivity(activity);
   };
 
