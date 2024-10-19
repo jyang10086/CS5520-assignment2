@@ -14,12 +14,14 @@ import { addContainer, inputContainer } from "../Styles";
 import { useItemsList } from "../components/context/ItemListContext";
 import { useThemeContext } from "../components/context/ThemeContext";
 import PressableButton from "../components/PressableButton";
+import SpecialCheckBox from "../components/SpecialCheckBox";
 export default function AddDiet({ navigation, route }) {
   const [description, setDescription] = useState("");
   const [calories, setCalories] = useState("");
   const [date, setDate] = useState(new Date());
   const [isSpecial, setIsSpecial] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   const { addDiet, deleteDiet, updateDiet } = useItemsList();
   const { theme } = useThemeContext();
@@ -103,21 +105,33 @@ export default function AddDiet({ navigation, route }) {
 
     if (!isEdit) {
       addDiet(newDiet);
+      setDescription("");
+      setCalories("");
+      setDate(null);
+
+      navigation.goBack();
     } else {
-      updateDiet(newDiet);
+      Alert.alert(
+        "Important",
+        "Are you sure you want to save these changes?",
+        [
+          { text: "No" },
+          {
+            text: "Yes",
+            onPress: () => {
+              updateDiet(newDiet);
+              navigation.goBack();
+            },
+          },
+        ],
+        { cancelable: false }
+      );
     }
-
-    setDescription("");
-    setCalories("");
-    setDate(null);
-
-    navigation.goBack();
   };
 
   return (
-    <View>
-      {/* ScrollView allows the content to be scrollable. */}
-      <ScrollView contentContainerStyle={styles.container} bounces={true}>
+    <ScrollView contentContainerStyle={styles.container} bounces={true}>
+      <View style={styles.topContainer}>
         {/* View for the Description input field */}
         <View>
           {/* Label for the description, styled with dynamic text color based on the current theme */}
@@ -160,16 +174,20 @@ export default function AddDiet({ navigation, route }) {
           {/* Custom DatePicker component to select the date. */}
           <DatePicker date={date} onDateChange={handleDateChange} />
         </View>
-
-        {/* View for the buttons (Cancel and Save) */}
+      </View>
+      <View style={styles.bottomContainer}>
+        {/* Show SpecialCheckBox only in edit mode for special entries */}
+        <SpecialCheckBox
+          visible={isEdit && isSpecial}
+          isChecked={isChecked}
+          setChecked={setChecked}
+        />
         <View style={styles.buttonContainer}>
-          {/* Cancel button */}
           <Button title="Cancel" onPress={handleCancel} />
-          {/* Save button */}
           <Button title="Save" onPress={handleSave} />
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 const styles = StyleSheet.create({
@@ -177,4 +195,6 @@ const styles = StyleSheet.create({
   text: addContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
+  topContainer: addContainer.topView,
+  bottomContainer: addContainer.bottomView,
 });

@@ -10,7 +10,6 @@ export const inputContainer = {
   borderWidth: 2,
   borderColor: primaryFontColor,
   borderRadius: 5,
-  height: 40,
   backgroundColor: "white",
   color: primaryFontColor,
   fontSize: 18,
@@ -18,17 +17,27 @@ export const inputContainer = {
 
 export const addContainer = {
   container: {
+    flex: 1,
+    justifyContent: "space-between",
     marginTop: 20,
     padding: 10,
-    rowGap: 40,
   },
   text: {
     fontWeight: "bold",
     fontSize: 15,
+    margin: 5,
   },
   buttons: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+  },
+  topView: {
+    flex: 8,
+    rowGap: 20,
+  },
+  bottomView: {
+    flex: 2,
+    justifyContent: "space-between",
   },
 };
 
@@ -99,7 +108,7 @@ export const selectListContainer = {
 
 export const pressableButtonStyles = {
   defaultStyle: {
-    backgroundColor:"transparent",
+    backgroundColor: "transparent",
   },
   pressed: { opacity: 0.5 },
   disabled: { opacity: 0.5 },
@@ -109,5 +118,16 @@ export const AddButtonStyle = {
   defaultStyle: {
     flexDirection: "row",
     margin: 10,
+  },
+};
+
+export const checkboxStyle = {
+  checkboxStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  text: {
+    fontSize: 15,
+    fontWeight: "bold",
   },
 };

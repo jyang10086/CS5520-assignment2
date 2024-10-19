@@ -15,6 +15,7 @@ import { addContainer, inputContainer } from "../Styles";
 import { useThemeContext } from "../components/context/ThemeContext";
 import ActivitySelectList from "../components/ActivitySelectList";
 import PressableButton from "../components/PressableButton";
+import SpecialCheckBox from "../components/SpecialCheckBox";
 
 export default function AddActivity({ navigation, route = {} }) {
   const [activity, setActivity] = useState("");
@@ -22,6 +23,7 @@ export default function AddActivity({ navigation, route = {} }) {
   const [date, setDate] = useState(new Date());
   const [isSpecial, setIsSpecial] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   const { addActivity, deleteActivity, updateActivity } = useItemsList();
   const { theme } = useThemeContext();
@@ -108,62 +110,83 @@ export default function AddActivity({ navigation, route = {} }) {
       duration: parseInt(duration),
       date: date.toDateString(),
       isSpecial:
-        ["Running", "Weights"].includes(activity) && parseInt(duration) > 60,
+        ["Running", "Weights"].includes(activity) &&
+        parseInt(duration) > 60 &&
+        !isChecked,
     };
 
     if (!isEdit) {
       addActivity(newActivity);
-    } else {
-      updateActivity(newActivity);
-    }
-    setActivity("");
-    setDuration("");
-    setDate(null);
-    setIsSpecial(false);
+      setActivity("");
+      setDuration("");
+      setDate(null);
+      setIsSpecial(false);
 
-    navigation.goBack();
+      navigation.goBack();
+    } else {
+      Alert.alert(
+        "Important",
+        "Are you sure you want to save these changes?",
+        [
+          { text: "No" },
+          {
+            text: "Yes",
+            onPress: () => {
+              updateActivity(newActivity);
+              navigation.goBack();
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
   return (
     //  ScrollView allows the content to be scrollable.
     <ScrollView contentContainerStyle={styles.container} bounces={true}>
-      {/* Input for selecting an activity */}
-      <View>
-        <Text style={[styles.text, { color: theme.textColor }]}>
-          Activity *
-        </Text>
-        <ActivitySelectList
-          editMode={isEdit}
-          activity={activity}
-          onSelect={handleActivityChange}
-        />
-      </View>
-      {/* Input for entering the duration */}
-      <View>
-        <Text style={[styles.text, { color: theme.textColor }]}>
-          Duration (min) *
-        </Text>
-        <TextInput
-          style={styles.inputContainer}
-          value={duration}
-          onChangeText={handleDurationChange}
-          keyboardType="numeric"
-        />
-      </View>
-      {/* Date picker for selecting the activity date */}
-      <View>
-        <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
-        <DatePicker date={date} onDateChange={handleDateChange} />
-      </View>
-      {/* {isSpecial && (
-        <View style={styles.checkboxContainer}>
-          <CheckBox value={isSpecial} onValueChange={setIsSpecial} />
-          <Text>Mark as not special</Text>
+      <View style={styles.topContainer}>
+        {/* Input for selecting an activity */}
+        <View>
+          <Text style={[styles.text, { color: theme.textColor }]}>
+            Activity *
+          </Text>
+          <ActivitySelectList
+            editMode={isEdit}
+            activity={activity}
+            onSelect={handleActivityChange}
+          />
         </View>
-      )} */}
-      <View style={styles.buttonContainer}>
-        <Button title="Cancel" onPress={handleCancel} />
-        <Button title="Save" onPress={handleSave} />
+        {/* Input for entering the duration */}
+        <View>
+          <Text style={[styles.text, { color: theme.textColor }]}>
+            Duration (min) *
+          </Text>
+          <TextInput
+            style={styles.inputContainer}
+            value={duration}
+            onChangeText={handleDurationChange}
+            keyboardType="numeric"
+          />
+        </View>
+        {/* Date picker for selecting the activity date */}
+        <View>
+          <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
+          <DatePicker date={date} onDateChange={handleDateChange} />
+        </View>
+      </View>
+
+      <View style={styles.bottomContainer}>
+        {/* Show SpecialCheckBox only in edit mode for special entries */}
+        <SpecialCheckBox
+          visible={isEdit && isSpecial}
+          isChecked={isChecked}
+          setChecked={setChecked}
+        />
+        <View style={styles.buttonContainer}>
+          <Button title="Cancel" onPress={handleCancel} />
+          <Button title="Save" onPress={handleSave} />
+        </View>
       </View>
     </ScrollView>
   );
@@ -173,4 +196,6 @@ const styles = StyleSheet.create({
   text: addContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
+  topContainer: addContainer.topView,
+  bottomContainer:addContainer.bottomView,
 });
