@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Alert,
   Button,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -130,68 +131,73 @@ export default function AddDiet({ navigation, route }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} bounces={true}>
-      <View style={styles.topContainer}>
-        {/* View for the Description input field */}
-        <View>
-          {/* Label for the description, styled with dynamic text color based on the current theme */}
-          <Text style={[styles.text, { color: theme.textColor }]}>
-            Description *
-          </Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.topContainer}>
+          {/* View for the Description input field */}
+          <View>
+            {/* Label for the description, styled with dynamic text color based on the current theme */}
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Description *
+            </Text>
 
-          {/* TextInput for entering a multi-line description. */}
-          <TextInput
-            style={{ ...styles.inputContainer, height: 120 }}
-            value={description}
-            onChangeText={handleDescriptionChange}
-            multiline={true}
-            numberOfLines={4}
-          />
-        </View>
+            {/* TextInput for entering a multi-line description. */}
+            <TextInput
+              style={{ ...styles.inputContainer, height: 120 }}
+              value={description}
+              onChangeText={handleDescriptionChange}
+              multiline={true}
+              numberOfLines={4}
+            />
+          </View>
 
-        {/* View for the Calories input field */}
-        <View>
-          {/* Label for the calories input, with dynamic styling based on theme */}
-          <Text style={[styles.text, { color: theme.textColor }]}>
-            Calories *
-          </Text>
+          {/* View for the Calories input field */}
+          <View>
+            {/* Label for the calories input, with dynamic styling based on theme */}
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Calories *
+            </Text>
 
-          {/* TextInput for entering calorie value. 
+            {/* TextInput for entering calorie value. 
               'keyboardType' is set to numeric to allow only number inputs. */}
-          <TextInput
-            style={styles.inputContainer}
-            value={calories}
-            onChangeText={handleCaloriesChange}
-            keyboardType="numeric"
+            <TextInput
+              style={styles.inputContainer}
+              value={calories}
+              onChangeText={handleCaloriesChange}
+              keyboardType="numeric"
+            />
+          </View>
+
+          {/* View for the Date input field */}
+          <View>
+            {/* Label for the date, also styled dynamically based on the theme */}
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Date *
+            </Text>
+
+            {/* Custom DatePicker component to select the date. */}
+            <DatePicker date={date} onDateChange={handleDateChange} />
+          </View>
+        </View>
+        <View style={styles.bottomContainer}>
+          {/* Show SpecialCheckBox only in edit mode for special entries */}
+          <SpecialCheckBox
+            visible={isEdit && isSpecial}
+            isChecked={isChecked}
+            setChecked={setChecked}
           />
+          <View style={styles.buttonContainer}>
+            <Button title="Cancel" onPress={handleCancel} />
+            <Button title="Save" onPress={handleSave} />
+          </View>
         </View>
-
-        {/* View for the Date input field */}
-        <View>
-          {/* Label for the date, also styled dynamically based on the theme */}
-          <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
-
-          {/* Custom DatePicker component to select the date. */}
-          <DatePicker date={date} onDateChange={handleDateChange} />
-        </View>
-      </View>
-      <View style={styles.bottomContainer}>
-        {/* Show SpecialCheckBox only in edit mode for special entries */}
-        <SpecialCheckBox
-          visible={isEdit && isSpecial}
-          isChecked={isChecked}
-          setChecked={setChecked}
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Cancel" onPress={handleCancel} />
-          <Button title="Save" onPress={handleSave} />
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: addContainer.container,
+  content: addContainer.contentContainer,
   text: addContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,

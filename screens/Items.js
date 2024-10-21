@@ -1,7 +1,7 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet } from "react-native";
 import { useItemsList } from "../components/context/ItemListContext";
 import Item from "../components/Item";
-import { itemsContainer } from "../Styles";
+import { addContainer, itemsContainer } from "../Styles";
 export default function Items({ navigation, route }) {
   // Retrieve both diets and activities from context
   const { diets, activities } = useItemsList();
@@ -21,17 +21,18 @@ export default function Items({ navigation, route }) {
   );
 
   return (
-    <View>
+    <SafeAreaView style={{ flex: 1 }}>
       <FlatList
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.content}
         data={items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: itemsContainer,
+  container: addContainer.container,
+  content: itemsContainer,
 });

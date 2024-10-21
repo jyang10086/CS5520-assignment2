@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -143,59 +144,63 @@ export default function AddActivity({ navigation, route = {} }) {
   };
 
   return (
-    //  ScrollView allows the content to be scrollable.
-    <ScrollView contentContainerStyle={styles.container} bounces={true}>
-      <View style={styles.topContainer}>
-        {/* Input for selecting an activity */}
-        <View>
-          <Text style={[styles.text, { color: theme.textColor }]}>
-            Activity *
-          </Text>
-          <ActivitySelectList
-            editMode={isEdit}
-            activity={activity}
-            onSelect={handleActivityChange}
-          />
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}bounces={true}>
+        <View style={styles.topContainer}>
+          {/* Input for selecting an activity */}
+          <View>
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Activity *
+            </Text>
+            <ActivitySelectList
+              editMode={isEdit}
+              activity={activity}
+              onSelect={handleActivityChange}
+            />
+          </View>
+          {/* Input for entering the duration */}
+          <View>
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Duration (min) *
+            </Text>
+            <TextInput
+              style={styles.inputContainer}
+              value={duration}
+              onChangeText={handleDurationChange}
+              keyboardType="numeric"
+            />
+          </View>
+          {/* Date picker for selecting the activity date */}
+          <View>
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Date *
+            </Text>
+            <DatePicker date={date} onDateChange={handleDateChange} />
+          </View>
         </View>
-        {/* Input for entering the duration */}
-        <View>
-          <Text style={[styles.text, { color: theme.textColor }]}>
-            Duration (min) *
-          </Text>
-          <TextInput
-            style={styles.inputContainer}
-            value={duration}
-            onChangeText={handleDurationChange}
-            keyboardType="numeric"
-          />
-        </View>
-        {/* Date picker for selecting the activity date */}
-        <View>
-          <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
-          <DatePicker date={date} onDateChange={handleDateChange} />
-        </View>
-      </View>
 
-      <View style={styles.bottomContainer}>
-        {/* Show SpecialCheckBox only in edit mode for special entries */}
-        <SpecialCheckBox
-          visible={isEdit && isSpecial}
-          isChecked={isChecked}
-          setChecked={setChecked}
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Cancel" onPress={handleCancel} />
-          <Button title="Save" onPress={handleSave} />
+        <View style={styles.bottomContainer}>
+          {/* Show SpecialCheckBox only in edit mode for special entries */}
+          <SpecialCheckBox
+            visible={isEdit && isSpecial}
+            isChecked={isChecked}
+            setChecked={setChecked}
+          />
+          <View style={styles.buttonContainer}>
+            <Button title="Cancel" onPress={handleCancel} />
+            <Button title="Save" onPress={handleSave} />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: addContainer.container,
+  content: addContainer.contentContainer,
   text: addContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
   topContainer: addContainer.topView,
-  bottomContainer:addContainer.bottomView,
+  bottomContainer: addContainer.bottomView,
 });

@@ -18,8 +18,8 @@ export const inputContainer = {
 export const addContainer = {
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    marginTop: 20,
+  },
+  contentContainer: {
     padding: 10,
   },
   text: {
@@ -32,12 +32,10 @@ export const addContainer = {
     justifyContent: "space-between",
   },
   topView: {
-    flex: 8,
     rowGap: 20,
   },
   bottomView: {
-    flex: 2,
-    justifyContent: "space-between",
+    marginTop: 200,
   },
 };
 
@@ -74,7 +72,6 @@ export const screenContainer = {
 };
 
 export const itemsContainer = {
-  height: "100%",
   padding: 20,
 };
 
