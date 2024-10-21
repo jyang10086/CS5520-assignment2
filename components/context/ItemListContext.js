@@ -1,4 +1,12 @@
+import { useEffect } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
 import { createContext, useState, useContext } from "react";
+import { database } from "../../firebase/firebaseSetup";
+import {
+  deleteFromDB,
+  updateFromDB,
+  writeToDB,
+} from "../../firebase/firestoreHelper";
 
 // Creating a context to hold items (activities and diets)
 const ItemsListContext = createContext();
@@ -14,18 +22,73 @@ export const ItemsListProvider = ({ children }) => {
   const [diets, setDiets] = useState([]);
 
   const addActivity = (activity) => {
-    setActivities((prevActivities) => [activity, ...prevActivities]);
+    writeToDB("activities", activity);
   };
 
   const addDiet = (diet) => {
-    setDiets((prevDiets) => [diet, ...prevDiets]);
+    writeToDB("diets", diet);
   };
+
+  const updateActivity = (activity) => {
+    updateFromDB("activities", activity);
+  };
+
+  const updateDiet = (diet) => {
+    updateFromDB("diets", diet);
+  };
+
+  const deleteActivity = (activityId) => {
+    deleteFromDB("activities", activityId);
+  };
+
+  const deleteDiet = (dietId) => {
+    deleteFromDB("diets", dietId);
+  };
+
+  useEffect(() => {
+    // Subscribe to activities collection
+    const unsubscribeActivities = onSnapshot(
+      collection(database, "activities"),
+      (querySnapshot) => {
+        const updatedItems = querySnapshot.docs.map((snapDoc) => ({
+          ...snapDoc.data(),
+          id: snapDoc.id, // Adding document ID
+        }));
+        setActivities(updatedItems);
+      }
+    );
+    return () => unsubscribeActivities();
+  }, []);
+
+  useEffect(() => {
+    // Subscribe to diets collection
+    const unsubscribeDiets = onSnapshot(
+      collection(database, "diets"),
+      (querySnapshot) => {
+        const updatedItems = querySnapshot.docs.map((snapDoc) => ({
+          ...snapDoc.data(),
+          id: snapDoc.id, // Adding document ID
+        }));
+        setDiets(updatedItems);
+      }
+    );
+    return () => unsubscribeDiets();
+  }, []);
 
   // Returning the provider with the values for activities, addActivity, diets, and addDiet.
   // These will be accessible to any components wrapped inside ItemsListProvider
   return (
     <ItemsListContext.Provider
-      value={{ activities, addActivity, addDiet, diets }}
+      value={{
+        activities,
+        addActivity,
+        addDiet,
+        diets,
+        updateDiet,
+        updateActivity,
+        deleteActivity,
+        deleteDiet,
+      }}
     >
       {children}
       {/* Rendering the children components wrapped by this provider */}

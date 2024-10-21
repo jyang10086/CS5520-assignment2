@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import React from "react";
 import { selectListContainer } from "../Styles";
 import { SelectList } from "react-native-dropdown-select-list";
-export default function ActivitySelectList({ onSelect }) {
-  const handleActivityChange = (activity) => {
+export default function ActivitySelectList({ editMode, activity, onSelect }) {
+  // To fix the issue with dropdown picker scroll bugs on Android,
+  // I have to use react-native-dropdown-select-list instead.
+  const [selected, setSelected] = useState("");
+
+  // The useEffect hook is called when the activity prop changes.
+  // It sets the selected state to the new activity.
+  useEffect(() => {
+    setSelected(activity);
+  }, [activity]);
+
+  // The handleActivityChange function is called when the user selects
+  // an activity from the dropdown picker. It calls the onActivityChange
+  // function with the new activity.
+  function handleActivityChange(activity) {
     onSelect(activity);
-  };
+    setSelected(activity);
+  }
 
   const data = [
     { key: "1", value: "Running" },
@@ -17,6 +31,11 @@ export default function ActivitySelectList({ onSelect }) {
     { key: "7", value: "Hiking" },
   ];
 
+  // The defaultOption is an object that represents the selected
+  // activity. If the selected activity is null, the defaultOption
+  // is null.
+  const defaultOption = selected ? { key: selected, value: selected } : null;
+
   return (
     <SelectList
       setSelected={handleActivityChange}
@@ -24,6 +43,7 @@ export default function ActivitySelectList({ onSelect }) {
       save="value"
       placeholder="Select An Activity"
       search={false}
+      defaultOption={editMode ? defaultOption : ""}
       boxStyles={styles.boxStyles}
       inputStyles={styles.inputStyles}
       dropdownStyles={styles.dropdownStyles}

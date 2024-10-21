@@ -4,13 +4,12 @@ export const navHeaderBgColor = "darkslateblue";
 export const naviHeaderFontColor = "white";
 export const darkFontColor = "white";
 export const primaryFontColor = "darkslateblue";
-
+export const cancelButtonColor = "darkred";
 export const inputContainer = {
   padding: 10,
   borderWidth: 2,
   borderColor: primaryFontColor,
   borderRadius: 5,
-  height: 40,
   backgroundColor: "white",
   color: primaryFontColor,
   fontSize: 18,
@@ -18,17 +17,29 @@ export const inputContainer = {
 
 export const addContainer = {
   container: {
-    marginTop: 20,
-    padding: 10,
-    rowGap: 40,
+    flex: 1,
+  },
+  contentContainer: {
+    padding: 20,
   },
   text: {
     fontWeight: "bold",
     fontSize: 15,
+    margin: 5,
   },
   buttons: {
+    marginTop:10,
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  cancel: {
+    backgroundColor: cancelButtonColor,
+  },
+  topView: {
+    rowGap: 20,
+  },
+  bottomView: {
+    marginTop: 100,
   },
 };
 
@@ -65,14 +76,21 @@ export const screenContainer = {
 };
 
 export const itemsContainer = {
-  height: "100%",
   padding: 20,
 };
 
 export const settingContainer = {
-  flex: 1,
-  alignItems: "center",
-  justifyContent: "center",
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  button: {
+    backgroundColor: navHeaderBgColor,
+    borderRadius: 5,
+    padding: 10,
+  },
+  text: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 };
 
 export const selectListContainer = {
@@ -94,5 +112,31 @@ export const selectListContainer = {
   dropdownText: {
     color: primaryFontColor,
     fontSize: 18,
+  },
+};
+
+export const pressableButtonStyles = {
+  defaultStyle: {
+    backgroundColor: "transparent",
+  },
+  pressed: { opacity: 0.5 },
+  disabled: { opacity: 0.5 },
+};
+
+export const AddButtonStyle = {
+  defaultStyle: {
+    flexDirection: "row",
+    margin: 10,
+  },
+};
+
+export const checkboxStyle = {
+  checkboxStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  text: {
+    fontSize: 15,
+    fontWeight: "bold",
   },
 };

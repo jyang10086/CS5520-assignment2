@@ -1,24 +1,75 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
-  Button,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import DatePicker from "../components/DatePicker";
-import { addContainer, inputContainer } from "../Styles";
+import { addContainer, inputContainer, settingContainer } from "../Styles";
 import { useItemsList } from "../components/context/ItemListContext";
 import { useThemeContext } from "../components/context/ThemeContext";
-export default function AddDiet({ navigation }) {
+import PressableButton from "../components/PressableButton";
+import SpecialCheckBox from "../components/SpecialCheckBox";
+export default function AddDiet({ navigation, route }) {
   const [description, setDescription] = useState("");
   const [calories, setCalories] = useState("");
   const [date, setDate] = useState(new Date());
+  const [isSpecial, setIsSpecial] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
-  const { addDiet } = useItemsList();
+  const { addDiet, deleteDiet, updateDiet } = useItemsList();
   const { theme } = useThemeContext();
+
+  const { mode, item } = route.params;
+
+  useEffect(() => {
+    if (mode === "edit") {
+      setIsEdit(true);
+      const { calories, date, description, isSpecial } = item;
+      console.log(item);
+      setCalories(calories?.toString() || "");
+      setDate(new Date(date));
+      setDescription(description);
+      setIsSpecial(isSpecial);
+    }
+  }, [route.params]);
+
+  useEffect(() => {
+    if (isEdit) {
+      navigation.setOptions({
+        title: "Edit",
+        headerRight: () => (
+          <PressableButton onPress={handleDelete}>
+            <Ionicons name="trash-outline" size={24} color="white" />
+          </PressableButton>
+        ),
+      });
+    }
+  }, [isEdit]);
+
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete",
+      "Are you sure you want to delete this item?",
+      [
+        { text: "No" },
+        {
+          text: "Yes",
+          onPress: () => {
+            deleteDiet(item.id);
+            navigation.goBack();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   const handleDescriptionChange = (activity) => {
     setDescription(activity);
@@ -44,7 +95,7 @@ export default function AddDiet({ navigation }) {
       return;
     }
     const newDiet = {
-      id: Math.random().toString(),
+      id: isEdit ? item.id : "",
       type: "diet",
       description,
       calories: parseInt(calories),
@@ -52,76 +103,113 @@ export default function AddDiet({ navigation }) {
       isSpecial: parseInt(calories) > 800,
     };
 
-    addDiet(newDiet);
+    if (!isEdit) {
+      addDiet(newDiet);
+      setDescription("");
+      setCalories("");
+      setDate(null);
 
-    setDescription("");
-    setCalories("");
-    setDate(null);
-
-    navigation.goBack();
+      navigation.goBack();
+    } else {
+      Alert.alert(
+        "Important",
+        "Are you sure you want to save these changes?",
+        [
+          { text: "No" },
+          {
+            text: "Yes",
+            onPress: () => {
+              updateDiet(newDiet);
+              navigation.goBack();
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
   return (
-    <View>
-      {/* ScrollView allows the content to be scrollable. */}
-      <ScrollView contentContainerStyle={styles.container} bounces={true}>
-        {/* View for the Description input field */}
-        <View>
-          {/* Label for the description, styled with dynamic text color based on the current theme */}
-          <Text style={[styles.text, { color: theme.textColor }]}>
-            Description *
-          </Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.topContainer}>
+          {/* View for the Description input field */}
+          <View>
+            {/* Label for the description, styled with dynamic text color based on the current theme */}
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Description *
+            </Text>
 
-          {/* TextInput for entering a multi-line description. */}
-          <TextInput
-            style={{ ...styles.inputContainer, height: 120 }}
-            value={description}
-            onChangeText={handleDescriptionChange}
-            multiline={true}
-            numberOfLines={4}
-          />
-        </View>
+            {/* TextInput for entering a multi-line description. */}
+            <TextInput
+              style={{ ...styles.inputContainer, height: 120 }}
+              value={description}
+              onChangeText={handleDescriptionChange}
+              multiline={true}
+              numberOfLines={4}
+            />
+          </View>
 
-        {/* View for the Calories input field */}
-        <View>
-          {/* Label for the calories input, with dynamic styling based on theme */}
-          <Text style={[styles.text, { color: theme.textColor }]}>
-            Calories *
-          </Text>
+          {/* View for the Calories input field */}
+          <View>
+            {/* Label for the calories input, with dynamic styling based on theme */}
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Calories *
+            </Text>
 
-          {/* TextInput for entering calorie value. 
+            {/* TextInput for entering calorie value. 
               'keyboardType' is set to numeric to allow only number inputs. */}
-          <TextInput
-            style={styles.inputContainer}
-            value={calories}
-            onChangeText={handleCaloriesChange}
-            keyboardType="numeric"
+            <TextInput
+              style={styles.inputContainer}
+              value={calories}
+              onChangeText={handleCaloriesChange}
+              keyboardType="numeric"
+            />
+          </View>
+
+          {/* View for the Date input field */}
+          <View>
+            {/* Label for the date, also styled dynamically based on the theme */}
+            <Text style={[styles.text, { color: theme.textColor }]}>
+              Date *
+            </Text>
+
+            {/* Custom DatePicker component to select the date. */}
+            <DatePicker date={date} onDateChange={handleDateChange} />
+          </View>
+        </View>
+        <View style={styles.bottomContainer}>
+          {/* Show SpecialCheckBox only in edit mode for special entries */}
+          <SpecialCheckBox
+            visible={isEdit && isSpecial}
+            isChecked={isChecked}
+            setChecked={setChecked}
           />
-        </View>
-
-        {/* View for the Date input field */}
-        <View>
-          {/* Label for the date, also styled dynamically based on the theme */}
-          <Text style={[styles.text, { color: theme.textColor }]}>Date *</Text>
-
-          {/* Custom DatePicker component to select the date. */}
-          <DatePicker date={date} onDateChange={handleDateChange} />
-        </View>
-
-        {/* View for the buttons (Cancel and Save) */}
-        <View style={styles.buttonContainer}>
-          {/* Cancel button */}
-          <Button title="Cancel" onPress={handleCancel} />
-          {/* Save button */}
-          <Button title="Save" onPress={handleSave} />
+          <View style={styles.buttonContainer}>
+            <PressableButton
+              customStyle={[styles.button, styles.cancel]}
+              onPress={handleCancel}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </PressableButton>
+            <PressableButton customStyle={styles.button} onPress={handleSave}>
+              <Text style={styles.buttonText}>Save</Text>
+            </PressableButton>
+          </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: addContainer.container,
+  content: addContainer.contentContainer,
   text: addContainer.text,
+  button: settingContainer.button,
+  cancel: addContainer.cancel,
+  buttonText: settingContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
+  topContainer: addContainer.topView,
+  bottomContainer: addContainer.bottomView,
 });

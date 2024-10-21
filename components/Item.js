@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import { item } from "../Styles";
-export default function Item({ item }) {
+import PressableButton from "./PressableButton";
+export default function Item({ item, onPress }) {
+  const handlePress = () => {
+    onPress();
+  };
   return (
-    <View style={styles.itemContainer}>
+    <PressableButton customStyle={styles.itemContainer} onPress={handlePress}>
       <Text style={styles.text}>
         {item.type === "activity" ? item.activity : item.description}
       </Text>
@@ -11,7 +15,7 @@ export default function Item({ item }) {
       <Text style={styles.detailText}>
         {item.type === "activity" ? `${item.duration} min` : item.calories}
       </Text>
-    </View>
+    </PressableButton>
   );
 }
 
