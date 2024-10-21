@@ -4,7 +4,7 @@ export const navHeaderBgColor = "darkslateblue";
 export const naviHeaderFontColor = "white";
 export const darkFontColor = "white";
 export const primaryFontColor = "darkslateblue";
-
+export const cancelButtonColor = "darkred";
 export const inputContainer = {
   padding: 10,
   borderWidth: 2,
@@ -20,7 +20,7 @@ export const addContainer = {
     flex: 1,
   },
   contentContainer: {
-    padding: 10,
+    padding: 20,
   },
   text: {
     fontWeight: "bold",
@@ -28,14 +28,18 @@ export const addContainer = {
     margin: 5,
   },
   buttons: {
+    marginTop:10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
+  },
+  cancel: {
+    backgroundColor: cancelButtonColor,
   },
   topView: {
     rowGap: 20,
   },
   bottomView: {
-    marginTop: 200,
+    marginTop: 100,
   },
 };
 
@@ -76,9 +80,17 @@ export const itemsContainer = {
 };
 
 export const settingContainer = {
-  flex: 1,
-  alignItems: "center",
-  justifyContent: "center",
+  container: { flex: 1, alignItems: "center", justifyContent: "center" },
+  button: {
+    backgroundColor: navHeaderBgColor,
+    borderRadius: 5,
+    padding: 10,
+  },
+  text: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 };
 
 export const selectListContainer = {

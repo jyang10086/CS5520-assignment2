@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useItemsList } from "../components/context/ItemListContext";
 import DatePicker from "../components/DatePicker";
-import { addContainer, inputContainer } from "../Styles";
+import { addContainer, inputContainer, settingContainer } from "../Styles";
 import { useThemeContext } from "../components/context/ThemeContext";
 import ActivitySelectList from "../components/ActivitySelectList";
 import PressableButton from "../components/PressableButton";
@@ -145,7 +145,7 @@ export default function AddActivity({ navigation, route = {} }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}bounces={true}>
+      <ScrollView contentContainerStyle={styles.content} bounces={true}>
         <View style={styles.topContainer}>
           {/* Input for selecting an activity */}
           <View>
@@ -187,8 +187,15 @@ export default function AddActivity({ navigation, route = {} }) {
             setChecked={setChecked}
           />
           <View style={styles.buttonContainer}>
-            <Button title="Cancel" onPress={handleCancel} />
-            <Button title="Save" onPress={handleSave} />
+            <PressableButton
+              customStyle={[styles.button, styles.cancel]}
+              onPress={handleCancel}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </PressableButton>
+            <PressableButton customStyle={styles.button} onPress={handleSave}>
+              <Text style={styles.buttonText}>Save</Text>
+            </PressableButton>
           </View>
         </View>
       </ScrollView>
@@ -199,6 +206,9 @@ const styles = StyleSheet.create({
   container: addContainer.container,
   content: addContainer.contentContainer,
   text: addContainer.text,
+  button: settingContainer.button,
+  cancel: addContainer.cancel,
+  buttonText: settingContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
   topContainer: addContainer.topView,

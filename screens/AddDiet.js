@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Alert,
-  Button,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -11,7 +10,7 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DatePicker from "../components/DatePicker";
-import { addContainer, inputContainer } from "../Styles";
+import { addContainer, inputContainer, settingContainer } from "../Styles";
 import { useItemsList } from "../components/context/ItemListContext";
 import { useThemeContext } from "../components/context/ThemeContext";
 import PressableButton from "../components/PressableButton";
@@ -187,8 +186,15 @@ export default function AddDiet({ navigation, route }) {
             setChecked={setChecked}
           />
           <View style={styles.buttonContainer}>
-            <Button title="Cancel" onPress={handleCancel} />
-            <Button title="Save" onPress={handleSave} />
+            <PressableButton
+              customStyle={[styles.button, styles.cancel]}
+              onPress={handleCancel}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </PressableButton>
+            <PressableButton customStyle={styles.button} onPress={handleSave}>
+              <Text style={styles.buttonText}>Save</Text>
+            </PressableButton>
           </View>
         </View>
       </ScrollView>
@@ -199,6 +205,9 @@ const styles = StyleSheet.create({
   container: addContainer.container,
   content: addContainer.contentContainer,
   text: addContainer.text,
+  button: settingContainer.button,
+  cancel: addContainer.cancel,
+  buttonText: settingContainer.text,
   buttonContainer: addContainer.buttons,
   inputContainer: inputContainer,
   topContainer: addContainer.topView,
